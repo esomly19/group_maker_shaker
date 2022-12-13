@@ -17,21 +17,30 @@ export default function Home() {
         if(!numberPerGroup&&!minOfGroup&&!maxPerGroup)return;
         let possibleNumberOfGroups = [];
         if(maxPerGroup){
-            let max = parseInt(people.length/maxPerGroup);
+            let max = parseInt(people.length/parseInt(maxPerGroup));
             for(let i=people.length;i>=max;i--){
                 possibleNumberOfGroups.push(i)
             }
         }
+        if(minOfGroup){
+            if(!maxPerGroup)
+                possibleNumberOfGroups=Array(100).fill().map((val,index)=>index>=minOfGroup?index:null).filter((v)=>v)
+            else
+                possibleNumberOfGroups=possibleNumberOfGroups.filter(nb=>nb>parseInt(minOfGroup));
+        }
+        let finded;
+        if(numberPerGroup){
+           finded=possibleNumberOfGroups.find((nb)=>nb===parseInt(numberPerGroup))
+        }
 
-        let numberOfGroups=parseInt(people.length/parseInt(numberPerGroup));
-        let perGroup=people.length/numberOfGroups;
+        let numberOfGroups=finded??possibleNumberOfGroups[0];
         let peopleCopy = [...people]
         setGroups(Array(numberOfGroups).fill().map((value,index)=>{
             let array=[];
             if(index===numberOfGroups)
                 array=[...peopleCopy];
             else{
-                for(let i=0;i<perGroup;i++){
+                for(let i=0;i<parseInt(people.length/numberOfGroups);i++){
                     array.push(peopleCopy.shift())
                 }
             }
@@ -67,10 +76,10 @@ export default function Home() {
 
                                <Spacer/>
                                <div>
-                                   <span style={{marginRight:"20px"}}>Nombre maximum personne par groupe</span>
+                                   <span style={{marginRight:"20px"}}>Nombre maximum de personne par groupe</span>
                                    <Input type={"number"} color="primary" value={maxPerGroup} onChange={({target})=>setMaxPerGroup(target.value)}/>
                                </div>
-                               <Button ghost color={"gradient"} css={{marginTop:"20px"}} onClick={generateGroups}>Générer les groupes</Button>
+                               <Button ghost color={"gradient"} css={{marginTop:"20px"}} onClick={generateGroups} disabled={!maxPerGroup&&!minOfGroup&&!numberPerGroup}>Générer les groupes</Button>
                            </div>
                         </div>
                    </div>
