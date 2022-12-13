@@ -12,23 +12,27 @@ export default function Home() {
     const [minOfGroup,setMinOfGroup] = useState("");
     const [numberPerGroup,setNumberPerGroup] = useState("");
     const [pair,setPair] = useState(false);
-    console.log(groups)
+
     const generateGroups = () =>{
         let numberOfGroups=parseInt(people.length/parseInt(numberPerGroup));
         let perGroup=people.length/numberOfGroups;
         let peopleCopy = [...people]
         setGroups(Array(numberOfGroups).fill().map((value,index)=>{
             let array=[];
-            for(let i=0;i<(index+1)*perGroup;i++){
-                console.log(people[i])
-                array.push(peopleCopy[i])
+            if(index===numberOfGroups)
+                array=[...peopleCopy];
+            else{
+                for(let i=0;i<perGroup;i++){
+                    array.push(peopleCopy.shift())
+                }
             }
-            return {users:array,nom:""};
+
+            return {users:array,nom:"Groupe "+(index+1),index:index};
         }))
     }
 
   return (
-    <div style={{height:"100vh",overflow:"auto"}}>
+    <div style={{height:"100vh"}}>
         <Row>
             <Card css={{height:"100%"}}>
                 <Card.Body>
@@ -66,7 +70,7 @@ export default function Home() {
         </Row>
         <Spacer/>
         <Row >
-            <Groups groups={groups}/>
+            <Groups groups={groups} setGroups={setGroups}/>
         </Row>
     </div>
   )
