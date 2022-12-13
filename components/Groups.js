@@ -19,9 +19,9 @@ export default function Groups({groups,setGroups}){
                         <div style={{overflowY:"auto",height:"100%"}}>
                             {group?.users?.map((user,index)=> <User
                                 key={index}
-                                text={user.prenom}
-                                name={user.prenom+" "+user.nom}
-                                description={user.special}
+                                text={user?.prenom}
+                                name={user?.prenom+" "+user?.nom}
+                                description={user?.special}
                             />)}
                         </div>
                     </Card.Body>

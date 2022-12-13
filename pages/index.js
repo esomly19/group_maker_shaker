@@ -14,6 +14,15 @@ export default function Home() {
     const [pair,setPair] = useState(false);
 
     const generateGroups = () =>{
+        if(!numberPerGroup&&!minOfGroup&&!maxPerGroup)return;
+        let possibleNumberOfGroups = [];
+        if(maxPerGroup){
+            let max = parseInt(people.length/maxPerGroup);
+            for(let i=people.length;i>=max;i--){
+                possibleNumberOfGroups.push(i)
+            }
+        }
+
         let numberOfGroups=parseInt(people.length/parseInt(numberPerGroup));
         let perGroup=people.length/numberOfGroups;
         let peopleCopy = [...people]
@@ -47,18 +56,18 @@ export default function Home() {
                                </div>
                                <Spacer/>
                                <div>
-                                   <span style={{marginRight:"20px"}}>Le nombre minimum de groupe</span>
+                                   <span style={{marginRight:"20px"}}>Nombre minimum de groupe</span>
                                    <Input type={"number"} color="primary" value={minOfGroup} onChange={({target})=>setMinOfGroup(target.value)}/>
                                </div>
                                <Spacer/>
                                <div>
-                                   <span style={{marginRight:"20px"}}>Le nombre de personnes par groupes</span>
+                                   <span style={{marginRight:"20px"}}>Nombre de personnes par groupes</span>
                                    <Input type={"number"} color="primary" value={numberPerGroup} onChange={({target})=>setNumberPerGroup(target.value)}/>
                                </div>
 
                                <Spacer/>
                                <div>
-                                   <span style={{marginRight:"20px"}}>Le nombre maximum personne par groupe</span>
+                                   <span style={{marginRight:"20px"}}>Nombre maximum personne par groupe</span>
                                    <Input type={"number"} color="primary" value={maxPerGroup} onChange={({target})=>setMaxPerGroup(target.value)}/>
                                </div>
                                <Button ghost color={"gradient"} css={{marginTop:"20px"}} onClick={generateGroups}>Générer les groupes</Button>
